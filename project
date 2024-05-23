@@ -1,0 +1,89 @@
+import java.lang.reflect.Array;
+
+public class CodingProject {
+
+	public static void main(String[] args) {
+		
+		//1. Defining the array
+		int[] ages = {3, 9, 23, 64, 2, 8, 28, 93};
+		
+		//1. a)
+		//Accessing the first and last elements
+		int firstAge = ages[0];
+		int lastAge = ages[ages.length - 1];
+		
+		int result1 = firstAge - lastAge;
+		
+		//Printing the result
+		System.out.println(result1);
+		
+		System.out.println("--------------------------");
+		
+		//1. b) New array
+		//New array
+		int[] ages2 = {3, 9, 23, 64, 2, 8, 28, 93, 73};
+		
+		//1. b) i. Making sure there's 9 elements
+		System.out.println(ages2.length);
+		
+		//1. b) ii. Accessing the first and last elements
+		int firstAge1 = ages2[0];
+		int lastAge1 = ages2[ages2.length - 1];
+				
+		//Printing the result
+		System.out.println(firstAge1 - lastAge1);
+		
+		//1. b) iii.
+		System.out.println("Using first value and last will work on any array that has at least 2 elements");
+		System.out.println("--------------------------");
+		
+		//1. c) Creating a loop to calculate average age
+		int sum = 0;
+		
+			//Iterate each element and we add them together
+			for (int age : ages) {
+				sum += age;
+			}
+		
+		//create a value with average age
+		int average = sum / ages.length;
+		System.out.println(average);
+		System.out.println("--------------------------");
+		
+		//2. 
+		String[] names = {"Sam", "Tommy", "Tim", "Sally", "Buck", "Bob"};
+		
+		//2. a)
+		int numOfLetters = 0;
+		
+			for (String name : names) {
+				numOfLetters += name.length();
+			}
+		int averageNumOfLetters = numOfLetters / names.length; 
+		System.out.println(averageNumOfLetters);
+		System.out.println("--------------------------");
+		
+		//2. b)
+		//Create an empty value
+		String concatNames = "";
+		
+		
+			for (String name : names) {
+				concatNames += name + " ";
+			}
+			
+		System.out.println(concatNames);
+		System.out.println("--------------------------");
+		
+		//3. Last element of any array regardless of length
+		System.out.println(names[names.length - 1]);
+		System.out.println("--------------------------");
+		
+		//4. First element is 0 index 
+		System.out.println(names[0]);
+		
+		//5. 
+		//int[] nameLengths = 
+	}
+
+}
