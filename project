@@ -1,89 +1,142 @@
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
-public class CodingProject {
+public class CodingProject_Q13 {
+    private static Map<String, Double> menu = new HashMap<>();
+    private static Map<Integer, List<String>> orders = new HashMap<>();
+    private static Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) {
-		
-		//1. Defining the array
-		int[] ages = {3, 9, 23, 64, 2, 8, 28, 93};
-		
-		//1. a)
-		//Accessing the first and last elements
-		int firstAge = ages[0];
-		int lastAge = ages[ages.length - 1];
-		
-		int result1 = firstAge - lastAge;
-		
-		//Printing the result
-		System.out.println(result1);
-		
-		System.out.println("--------------------------");
-		
-		//1. b) New array
-		//New array
-		int[] ages2 = {3, 9, 23, 64, 2, 8, 28, 93, 73};
-		
-		//1. b) i. Making sure there's 9 elements
-		System.out.println(ages2.length);
-		
-		//1. b) ii. Accessing the first and last elements
-		int firstAge1 = ages2[0];
-		int lastAge1 = ages2[ages2.length - 1];
-				
-		//Printing the result
-		System.out.println(firstAge1 - lastAge1);
-		
-		//1. b) iii.
-		System.out.println("Using first value and last will work on any array that has at least 2 elements");
-		System.out.println("--------------------------");
-		
-		//1. c) Creating a loop to calculate average age
-		int sum = 0;
-		
-			//Iterate each element and we add them together
-			for (int age : ages) {
-				sum += age;
-			}
-		
-		//create a value with average age
-		int average = sum / ages.length;
-		System.out.println(average);
-		System.out.println("--------------------------");
-		
-		//2. 
-		String[] names = {"Sam", "Tommy", "Tim", "Sally", "Buck", "Bob"};
-		
-		//2. a)
-		int numOfLetters = 0;
-		
-			for (String name : names) {
-				numOfLetters += name.length();
-			}
-		int averageNumOfLetters = numOfLetters / names.length; 
-		System.out.println(averageNumOfLetters);
-		System.out.println("--------------------------");
-		
-		//2. b)
-		//Create an empty value
-		String concatNames = "";
-		
-		
-			for (String name : names) {
-				concatNames += name + " ";
-			}
-			
-		System.out.println(concatNames);
-		System.out.println("--------------------------");
-		
-		//3. Last element of any array regardless of length
-		System.out.println(names[names.length - 1]);
-		System.out.println("--------------------------");
-		
-		//4. First element is 0 index 
-		System.out.println(names[0]);
-		
-		//5. 
-		//int[] nameLengths = 
-	}
+    public static void main(String[] args) {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\nRestaurant Management System");
+            System.out.println("1. Add Menu Item");
+            System.out.println("2. Remove Menu Item");
+            System.out.println("3. Place Order");
+            System.out.println("4. View Order");
+            System.out.println("5. Generate Bill");
+            System.out.println("6. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
 
+            switch (choice) {
+                case 1:
+                    addMenuItem();
+                    break;
+                case 2:
+                    removeMenuItem();
+                    break;
+                case 3:
+                    placeOrder();
+                    break;
+                case 4:
+                    viewOrder();
+                    break;
+                case 5:
+                    generateBill();
+                    break;
+                case 6:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    public static void addMenuItem() {
+        System.out.print("Enter item name: ");
+        String itemName = scanner.nextLine();
+        System.out.print("Enter item price: ");
+        double price = scanner.nextDouble();
+        scanner.nextLine();  // Consume newline
+        menu.put(itemName, price);
+        System.out.println("Added menu item: " + itemName + " - $" + price);
+    }
+
+    public static void removeMenuItem() {
+        System.out.print("Enter item name to remove: ");
+        String itemName = scanner.nextLine();
+        if (menu.containsKey(itemName)) {
+            menu.remove(itemName);
+            System.out.println("Removed menu item: " + itemName);
+        } else {
+            System.out.println("Item not found: " + itemName);
+        }
+    }
+
+    public static void placeOrder() {
+        System.out.print("Enter table number: ");
+        int tableNumber = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        List<String> orderList = orders.getOrDefault(tableNumber, new ArrayList<>());
+        while (true) {
+            System.out.print("Enter item name to order (or type 'done' to finish): ");
+            String item = scanner.nextLine();
+            if (item.equalsIgnoreCase("done")) {
+                break;
+            }
+            if (menu.containsKey(item)) {
+                orderList.add(item);
+                System.out.println("Added item: " + item);
+            } else {
+                System.out.println("Menu item not found: " + item);
+            }
+        }
+        orders.put(tableNumber, orderList);
+        System.out.println("Order placed for table " + tableNumber);
+    }
+
+    public static void viewOrder() {
+        System.out.print("Enter table number to view order: ");
+        int tableNumber = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        List<String> orderList = orders.get(tableNumber);
+        if (orderList != null && !orderList.isEmpty()) {
+            System.out.println("Order for table " + tableNumber + ": " + orderList);
+        } else {
+            System.out.println("No orders for table " + tableNumber);
+        }
+    }
+
+    public static void generateBill() {
+        System.out.print("Enter table number to generate bill: ");
+        int tableNumber = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        System.out.print("Enter tip percentage (10, 15, 20): ");
+        int tipPercentage = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        List<String> orderList = orders.get(tableNumber);
+        if (orderList == null || orderList.isEmpty()) {
+            System.out.println("No orders for table " + tableNumber);
+            return;
+        }
+
+        double total = 0;
+        for (String item : orderList) {
+            total += menu.get(item);
+        }
+
+        double tip = 0;
+        if (tipPercentage == 10) {
+            tip = total * 0.10;
+        } else if (tipPercentage == 15) {
+            tip = total * 0.15;
+        } else if (tipPercentage == 20) {
+            tip = total * 0.20;
+        } else {
+            System.out.println("Invalid tip percentage. No tip added.");
+        }
+
+        double finalTotal = total + tip;
+
+        System.out.println("Bill for table " + tableNumber + ":");
+        System.out.println("Subtotal: $" + total);
+        System.out.println("Tip (" + tipPercentage + "%): $" + tip);
+        System.out.println("Total: $" + finalTotal);
+    }
 }
